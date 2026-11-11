@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b12">
+  <title>Global Life Expectancy // Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Global Life Expectancy home">
+        <span class="brand-mark">◎</span>
+        <span>HELIOS<span class="brand-dim"> / ANALYTICS</span></span>
+      </a>
+      <div class="top-status"><span class="pulse"></span> MODEL ONLINE <span class="divider">|</span> v1.0.0</div>
+      <button class="ghost-button" id="resetButton" type="button">RESET SESSION <span>↻</span></button>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="signal"></span> DEVELOPMENT OUTCOMES // LIVE INFERENCE</div>
+      <h1>Global Life<br><em>Expectancy</em> <span class="outline">Predictor</span></h1>
+      <p class="hero-copy">A browser-native command interface for modelling life expectancy from health, economic and education indicators sourced from the World Bank.</p>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel input-panel">
+        <div class="panel-heading">
+          <div><span class="panel-index">01</span><h2>Country indicators</h2></div>
+          <span class="live-tag">INPUT STREAM</span>
+        </div>
+        <p class="panel-note">Tune the profile parameters below. The projection updates in real time.</p>
+        <div class="control-grid">
+          <label class="control wide">
+            <span>GDP PER CAPITA <small>USD / PERSON</small></span>
+            <div class="number-control"><span>$</span><input id="gdp" type="number" min="200" max="150000" step="100" value="65000"><span class="unit">USD</span></div>
+          </label>
+          <label class="control">
+            <span>HEALTH EXPENDITURE <small>% OF GDP</small></span>
+            <input id="health" type="range" min="1" max="20" step="0.01" value="12">
+            <output for="health" id="healthValue">12.00%</output>
+          </label>
+          <label class="control">
+            <span>SCHOOL ENROLLMENT <small>% GROSS</small></span>
+            <input id="school" type="range" min="40" max="150" step="1" value="100">
+            <output for="school" id="schoolValue">100%</output>
+          </label>
+          <label class="control">
+            <span>MEASLES IMMUNIZATION <small>% OF CHILDREN</small></span>
+            <input id="measles" type="range" min="20" max="100" step="1" value="98">
+            <output for="measles" id="measlesValue">98%</output>
+          </label>
+          <label class="control">
+            <span>UNDER-5 MORTALITY <small>PER 1,000 LIVE BIRTHS</small></span>
+            <input id="mortality" type="range" min="1" max="150" step="1" value="3">
+            <output for="mortality" id="mortalityValue">3</output>
+          </label>
+          <label class="control">
+            <span>HIV PREVALENCE <small>% POP. AGED 15–49</small></span>
+            <input id="hiv" type="range" min="0" max="15" step="0.01" value="0.1">
+            <output for="hiv" id="hivValue">0.10%</output>
+          </label>
+          <label class="control wide">
+            <span>POPULATION <small>RESIDENTS</small></span>
+            <div class="number-control"><input id="population" type="number" min="100000" max="1500000000" step="100000" value="10000000"><span class="unit">PEOPLE</span></div>
+          </label>
+        </div>
+        <button class="primary-button" id="predictButton" type="button"><span>RUN PROJECTION</span><b>→</b></button>
+        <div class="input-footer"><span>TRANSFORM: log₁₊ₓ (GDP, POPULATION)</span><span id="eventLog">READY FOR INPUT</span></div>
+      </article>
+
+      <aside class="panel result-panel">
+        <div class="panel-heading"><div><span class="panel-index">02</span><h2>Projection output</h2></div><span class="live-tag accent">LIVE</span></div>
+        <div class="result-label">ESTIMATED LIFE EXPECTANCY</div>
+        <div class="result-number"><span id="prediction">81.8</span><small>YEARS</small></div>
+        <div class="meter"><div class="meter-fill" id="meterFill"></div><div class="meter-marker" style="left: 65%"></div><div class="meter-marker" style="left: 75%"></div></div>
+        <div class="meter-labels"><span>40</span><span>65 MODERATE</span><span>75 HIGH</span><span>90</span></div>
+        <div class="profile-badge high" id="profileBadge"><span class="badge-dot"></span><span id="profileText">HIGH LIFE EXPECTANCY PROFILE</span></div>
+        <p class="result-description" id="resultDescription">Strong health and economic indicators suggest a high life expectancy profile.</p>
+        <div class="result-meta"><div><span>CONFIDENCE BAND</span><strong>± 1.1 YRS</strong></div><div><span>MODEL FAMILY</span><strong>XGBOOST</strong></div></div>
+      </aside>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel indicators-panel">
+        <div class="panel-heading"><div><span class="panel-index">03</span><h2>Signal matrix</h2></div><span class="live-tag">FEATURE WEIGHTS</span></div>
+        <div class="bars">
+          <div class="bar-row"><span>UNDER-5 MORTALITY</span><div class="bar-track"><i style="width:83%"></i></div><b>0.828</b></div>
+          <div class="bar-row"><span>HIV PREVALENCE</span><div class="bar-track"><i style="width:6%"></i></div><b>0.058</b></div>
+          <div class="bar-row"><span>GDP / CAPITA (LOG)</span><div class="bar-track"><i style="width:5.6%"></i></div><b>0.056</b></div>
+          <div class="bar-row"><span>POPULATION (LOG)</span><div class="bar-track"><i style="width:3.2%"></i></div><b>0.032</b></div>
+          <div class="bar-row"><span>HEALTH EXPENDITURE</span><div class="bar-track"><i style="width:1.2%"></i></div><b>0.012</b></div>
+        </div>
+        <div class="matrix-foot">Feature importance from the supplied training run <span>↗</span></div>
+      </article>
+      <article class="panel context-panel">
+        <div class="panel-heading"><div><span class="panel-index">04</span><h2>Operational context</h2></div><span class="live-tag">WORLD BANK DATA</span></div>
+        <div class="context-stat"><span>DATA SCOPE</span><strong>GLOBAL / MULTI-YEAR</strong></div>
+        <div class="context-stat"><span>INPUT SIGNALS</span><strong>07 INDICATORS</strong></div>
+        <div class="context-stat"><span>PRIMARY DRIVER</span><strong class="accent-text">CHILD SURVIVAL</strong></div>
+        <div class="terminal-note"><span>&gt; </span> Projection is an analytical estimate, not a medical or policy diagnosis.</div>
+      </article>
+    </section>
+
+    <footer><span>HELIOS ANALYTICS SYSTEM</span><span>WORLD BANK DEVELOPMENT INDICATORS · BROWSER RUNTIME</span><span>© 2026</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
